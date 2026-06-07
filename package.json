@@ -2,7 +2,13 @@
   "name": "openclaw-claude-code",
   "version": "1.0.0",
   "description": "OpenClaw plugin — routes all inference through your local Claude Code / Cowork install. No API key. No direct Anthropic calls. Uses your existing subscription.",
-  "keywords": ["openclaw", "openclaw-plugin", "claude", "claude-code", "cowork"],
+  "keywords": [
+    "openclaw",
+    "openclaw-plugin",
+    "claude",
+    "claude-code",
+    "cowork"
+  ],
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -23,6 +29,7 @@
     "openclaw": "*"
   },
   "devDependencies": {
+    "@types/node": "^25.9.2",
     "typescript": "^5.0.0"
   },
   "openclaw": {

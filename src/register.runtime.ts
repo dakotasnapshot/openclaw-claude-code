@@ -15,6 +15,7 @@ import {
 } from "./cli-shared.js";
 
 const PROVIDER_ID = "claude-code";
+type OpenClawConfigLike = ProviderAuthMethodNonInteractiveContext["config"];
 
 const NOT_FOUND_MESSAGE = [
   "Claude Code / Cowork is not installed or not in PATH.",
@@ -53,13 +54,13 @@ async function runCliAuth(ctx: ProviderAuthContext): Promise<ProviderAuthResult>
 
 async function runCliAuthNonInteractive(
   ctx: ProviderAuthMethodNonInteractiveContext,
-): Promise<ProviderAuthResult["profiles"] extends infer _P ? Parameters<typeof ctx.config extends infer C ? C : never>[0] : never> {
+): Promise<OpenClawConfigLike | null> {
   if (!isClaudeCliAvailable()) {
     ctx.runtime.error(NOT_FOUND_MESSAGE);
     ctx.runtime.exit(1);
-    return null as never;
+    return null;
   }
-  return ctx.config as never;
+  return ctx.config;
 }
 
 // ---------------------------------------------------------------------------
