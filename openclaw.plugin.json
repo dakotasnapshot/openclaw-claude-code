@@ -1,0 +1,27 @@
+{
+  "id": "claude-code",
+  "enabledByDefault": true,
+  "providers": ["claude-code"],
+  "modelSupport": {
+    "modelPrefixes": ["claude-code/"]
+  },
+  "cliBackends": ["claude-code"],
+  "providerAuthChoices": [
+    {
+      "provider": "claude-code",
+      "method": "cli",
+      "choiceId": "claude-code-cli",
+      "choiceLabel": "Claude Code / Cowork",
+      "choiceHint": "Route through your local Claude Code install — no API key, uses your existing subscription",
+      "assistantPriority": 0,
+      "groupId": "claude-code",
+      "groupLabel": "Claude Code",
+      "groupHint": "Local claude CLI only — no direct Anthropic calls"
+    }
+  ],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}
