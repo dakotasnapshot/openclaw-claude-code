@@ -51,7 +51,7 @@ openclaw setup
 
 Or set it as the default model directly:
 ```sh
-openclaw models use claude-code/claude-opus-4-7
+openclaw models use claude-code/claude-fable-5
 ```
 
 ## Available models
@@ -60,14 +60,27 @@ Models follow the `claude-code/<model-id>` naming convention, matching whatever 
 
 | Model ref | Description |
 |---|---|
-| `claude-code/claude-opus-4-7` | Opus 4.7 (default) |
+| `claude-code/claude-fable-5` | Fable 5 (default) — Anthropic's most capable widely released model |
+| `claude-code/claude-mythos-5` | Mythos 5 — requires Project Glasswing access on your Claude account |
+| `claude-code/claude-opus-4-8` | Opus 4.8 |
+| `claude-code/claude-opus-4-7` | Opus 4.7 |
 | `claude-code/claude-sonnet-4-6` | Sonnet 4.6 |
 | `claude-code/claude-opus-4-6` | Opus 4.6 |
-| `claude-code/claude-opus-4-5` | Opus 4.5 |
-| `claude-code/claude-sonnet-4-5` | Sonnet 4.5 |
 | `claude-code/claude-haiku-4-5` | Haiku 4.5 |
 
-You can also use short aliases: `opus`, `sonnet`, `haiku`.
+You can also use short aliases: `fable`, `mythos`, `opus`, `sonnet`, `haiku`.
+
+> **Note on Mythos:** `claude-mythos-5` (and `claude-mythos-preview`) are limited-availability models offered to approved organizations through [Project Glasswing](https://anthropic.com/glasswing). The plugin will pass the model through to your local CLI, but the request only succeeds if the account your CLI is logged into has been granted access. Everyone else should use `claude-fable-5`, the generally available Mythos-class model.
+
+## Long-running responses and timeouts
+
+Fable 5 and Mythos 5 run with adaptive thinking always on, and the raw chain of thought is never streamed back. That means the `claude` subprocess can legitimately produce **no output for several minutes** while the model thinks. Earlier versions of this plugin used OpenClaw's stock no-output watchdog (as little as 60 seconds of silence on resumed sessions), which killed the subprocess mid-thought with errors like:
+
+```
+CLI produced no output for 60s and was terminated.
+```
+
+This plugin now ships watchdog profiles tuned for thinking models: up to 30 minutes of silence is tolerated on both fresh and resumed runs (still capped by your overall run timeout, so hung processes are reaped). If you set a custom `timeoutSeconds` in your OpenClaw agent config, make sure it's generous enough for long agentic turns — the watchdog can never exceed it.
 
 ## Security model
 
