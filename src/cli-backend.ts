@@ -1,14 +1,12 @@
 import type { CliBackendPlugin } from "openclaw/plugin-sdk/cli-backend";
-import {
-  CLI_FRESH_WATCHDOG_DEFAULTS,
-  CLI_RESUME_WATCHDOG_DEFAULTS,
-} from "openclaw/plugin-sdk/cli-backend";
 
 import {
   CLAUDE_CODE_BACKEND_ID,
   CLAUDE_CODE_CLEAR_ENV,
   CLAUDE_CODE_DEFAULT_MODEL_REF,
+  CLAUDE_CODE_FRESH_WATCHDOG,
   CLAUDE_CODE_MODEL_ALIASES,
+  CLAUDE_CODE_RESUME_WATCHDOG,
   CLAUDE_CODE_SESSION_ID_FIELDS,
   normalizeClaudeCodeBackendConfig,
 } from "./cli-shared.js";
@@ -71,10 +69,13 @@ export function buildClaudeCodeCliBackend(): CliBackendPlugin {
       systemPromptMode: "append",
       systemPromptWhen: "first",
       clearEnv: [...CLAUDE_CODE_CLEAR_ENV],
+      // Fable/Mythos think silently for long stretches — the SDK's stock
+      // watchdog windows (especially resume's 1–3 min) kill the CLI
+      // mid-thought. See CLAUDE_CODE_*_WATCHDOG in cli-shared.ts.
       reliability: {
         watchdog: {
-          fresh: { ...CLI_FRESH_WATCHDOG_DEFAULTS },
-          resume: { ...CLI_RESUME_WATCHDOG_DEFAULTS },
+          fresh: { ...CLAUDE_CODE_FRESH_WATCHDOG },
+          resume: { ...CLAUDE_CODE_RESUME_WATCHDOG },
         },
       },
       serialize: true,
