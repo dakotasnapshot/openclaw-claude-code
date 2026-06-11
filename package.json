@@ -1,7 +1,7 @@
 {
   "name": "openclaw-claude-code",
-  "version": "1.1.0",
-  "description": "OpenClaw plugin — routes all inference through your local Claude Code / Cowork install. No API key. No direct Anthropic calls. Uses your existing subscription.",
+  "version": "1.1.1",
+  "description": "OpenClaw plugin \u2014 routes all inference through your local Claude Code / Cowork install. No API key. No direct Anthropic calls. Uses your existing subscription.",
   "keywords": [
     "openclaw",
     "openclaw-plugin",

@@ -103,7 +103,10 @@ export function buildClaudeCodeCliBackend(): CliBackendPlugin {
       // we MUST declare the dialect — otherwise the raw JSONL leaks to the channel.
       jsonlDialect: "claude-stream-json",
       resumeOutput: "jsonl",
-      input: "stdin",
+      // claude CLI >= 2.1.16x in -p mode buffers everything until stdin EOF;
+      // the gateway holds stdin open, so stdin input silently hangs forever.
+      // Pass the prompt as an argument instead. (Changed 2026-06-11)
+      input: "arg",
       modelArg: "--model",
       modelAliases: CLAUDE_CODE_MODEL_ALIASES,
       sessionArg: "--session-id",
